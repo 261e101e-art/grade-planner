@@ -1,4 +1,13 @@
 import argparse
+from grade_planner.plot import create_projection_plot
+from grade_planner.calculator import calculate_required_score
+from grade_planner.io import (
+    get_completed_score,
+    get_remaining_weight,
+    load_grade_data,
+)
+
+import argparse
 
 from grade_planner.calculator import calculate_required_score
 from grade_planner.io import (
@@ -6,6 +15,7 @@ from grade_planner.io import (
     get_remaining_weight,
     load_grade_data,
 )
+from grade_planner.plot import create_projection_plot
 
 
 def main() -> None:
@@ -44,6 +54,12 @@ def main() -> None:
         target_score=args.target,
     )
 
+    create_projection_plot(
+        current_score=current_score,
+        remaining_weight=remaining_weight,
+        target_score=args.target,
+    )
+
     print("\nGrade Planner")
     print("=" * 40)
     print(f"Current weighted score : {current_score:.2f}")
@@ -57,11 +73,16 @@ def main() -> None:
         print(
             f"Required remaining score: {required_score:.2f}"
         )
-        print("The target cannot be reached with a maximum score of 100.")
+        print(
+            "The target cannot be reached "
+            "with a maximum score of 100."
+        )
     else:
         print(
             f"Required remaining score: {required_score:.2f}"
         )
+
+    print("\nProjection plot saved as grade_projection.pdf")
 
 
 if __name__ == "__main__":
